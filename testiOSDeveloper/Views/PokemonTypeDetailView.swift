@@ -25,9 +25,9 @@ struct PokemonTypeDetailView: View {
             } else {
                 List(viewModel.pokemonEntries, id: \.pokemon.url) { entry in
                     HStack {
-                        Text(entry.pokemon.name.capitalized)
-                        Spacer()
-                        Text("Slot: \(entry.slot)")
+                        NavigationLink(destination: PokemonDetailView(pokemonId: entry.pokemon.url)) {
+                            Text(entry.pokemon.name.capitalized)
+                        }
                     }
                 }
             }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class PokemonApiService {
     private let baseUrl = "https://pokeapi.co/api/v2/"
@@ -32,6 +33,19 @@ class PokemonApiService {
             }
         }.resume()
     }
+    
+    func fetchPokemonDetail(pokemonId: Int) -> AnyPublisher<PokemonDetail, Error> {
+        let urlString = "https://pokeapi.co/api/v2/pokemon/\(pokemonId)/"
+        guard let url = URL(string: urlString) else {
+            return Fail(error: URLError(.badURL)).eraseToAnyPublisher()
+        }
+        return URLSession.shared.dataTaskPublisher(for: url)
+            .map(\.data)
+            .decode(type: PokemonDetail.self, decoder: JSONDecoder())
+            .eraseToAnyPublisher()
+    }
+    
+    
 }
 
 
