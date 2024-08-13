@@ -33,3 +33,30 @@ class PokemonApiService {
         }.resume()
     }
 }
+
+
+extension PokemonApiService {
+    func fetchPokemonTypeDetail(urlString: String, completion: @escaping (Result<PokemonTypeDetail, Error>) -> Void) {
+        let url = URL(string: "\(baseUrl)\(urlString)")!
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let detail = try JSONDecoder().decode(PokemonTypeDetail.self, from: data)
+                completion(.success(detail))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+}
+
