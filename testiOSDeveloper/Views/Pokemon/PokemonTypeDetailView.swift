@@ -23,13 +23,13 @@ struct PokemonTypeDetailView: View {
             } else if let errorMessage = viewModel.errorMessage {
                 Text("Error: \(errorMessage)")
             } else {
-                List(viewModel.pokemonEntries, id: \.pokemon.url) { entry in
+                List(viewModel.pokemonEntries, id: \.pokemon.url){ entry in
                     HStack {
                         NavigationLink(destination: PokemonDetailView(pokemonId: entry.pokemon.url)) {
                             Text(entry.pokemon.name.capitalized)
                         }
                     }
-                }
+                }.listStyle(InsetGroupedListStyle())
             }
         }
         .navigationTitle("Pokémon by Type")

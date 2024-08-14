@@ -6,13 +6,24 @@
 //
 
 import SwiftUI
+import Firebase
+
 
 @main
-struct PokemonApp: App {
+struct testiOSDeveloper: App {
+    @StateObject private var authViewModel = AuthViewModel()
+    
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            PokemonTypeView()
+            if authViewModel.user != nil {
+                PokemonTypeView()
+            } else {
+                SignInView()
+            }            
         }
     }
 }
-
